@@ -1,0 +1,832 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Capstone Share-Out Sign-Up</title>
+    <style>
+      :root {
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font:
+          14px -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: #faf9f5;
+        color: #141413;
+      }
+      img {
+        max-width: 100%;
+      }
+      [hidden]:not([hidden="until-found" i]) {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #fffcf9;
+        --surface: #ffffff;
+        --ink: #1e293b;
+        --muted: #5b6678;
+        --line: #e6e1da;
+        --brand: #4e89bd;
+        --brand-soft: #e8f1f9;
+        --brand-ink: #2f6493;
+        --light: #61afee;
+        --red: #e06c75;
+        --ok: #2f7d5b;
+        --ok-soft: #e5f3ec;
+        --taken: #f1eeea;
+        --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+        --sans:
+          "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #141a24;
+          --surface: #1b2230;
+          --ink: #e7ecf3;
+          --muted: #9aa6b8;
+          --line: #2c3545;
+          --brand: #61afee;
+          --brand-soft: #1d3148;
+          --brand-ink: #9ccaf2;
+          --light: #61afee;
+          --red: #e06c75;
+          --ok: #6fcf9f;
+          --ok-soft: #173327;
+          --taken: #222a38;
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #141a24;
+        --surface: #1b2230;
+        --ink: #e7ecf3;
+        --muted: #9aa6b8;
+        --line: #2c3545;
+        --brand: #61afee;
+        --brand-soft: #1d3148;
+        --brand-ink: #9ccaf2;
+        --light: #61afee;
+        --red: #e06c75;
+        --ok: #6fcf9f;
+        --ok-soft: #173327;
+        --taken: #222a38;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding-inline: 16px;
+        padding-block: 28px 64px;
+        display: grid;
+        gap: 28px;
+      }
+      h1,
+      h2,
+      h3 {
+        text-wrap: balance;
+        margin: 0;
+        line-height: 1.2;
+      }
+      h1 {
+        font-size: clamp(26px, 5vw, 34px);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      h2 {
+        font-size: 19px;
+        font-weight: 700;
+      }
+      h3 {
+        font-size: 13px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      p {
+        margin: 0;
+      }
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--brand-ink);
+        letter-spacing: 0.04em;
+      }
+      .lede {
+        color: var(--muted);
+        max-width: 62ch;
+        margin-top: 8px;
+      }
+      header {
+        display: grid;
+        gap: 6px;
+      }
+      .banner {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 10px;
+        padding: 12px 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .banner[data-tone="warn"] {
+        border-color: var(--red);
+        color: var(--ink);
+      }
+      .banner[data-tone="ok"] {
+        border-color: var(--ok);
+        background: var(--ok-soft);
+        color: var(--ink);
+      }
+
+      .choices {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 12px;
+      }
+      .choice {
+        all: unset;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: grid;
+        gap: 6px;
+        padding: 16px 18px;
+        border: 1.5px solid var(--line);
+        border-radius: 12px;
+        background: var(--surface);
+      }
+      .choice:hover {
+        border-color: var(--light);
+      }
+      .choice:focus-visible {
+        outline: 3px solid var(--light);
+        outline-offset: 2px;
+      }
+      .choice[aria-pressed="true"] {
+        border-color: var(--brand);
+        background: var(--brand-soft);
+      }
+      .choice strong {
+        font-size: 16px;
+      }
+      .choice span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .choice .meta {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--brand-ink);
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+        max-width: 360px;
+      }
+      label {
+        font-weight: 500;
+        font-size: 14px;
+      }
+      input,
+      select {
+        font: inherit;
+        color: var(--ink);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 9px 11px;
+        min-width: 0;
+      }
+      input:focus-visible,
+      select:focus-visible {
+        outline: 3px solid var(--light);
+        outline-offset: 1px;
+      }
+
+      .day {
+        display: grid;
+        gap: 8px;
+      }
+      .slots {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 8px;
+      }
+      .slot {
+        all: unset;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: grid;
+        gap: 2px;
+        padding: 10px 12px;
+        border-radius: 9px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        font-variant-numeric: tabular-nums;
+      }
+      .slot:hover:not([disabled]) {
+        border-color: var(--brand);
+      }
+      .slot:focus-visible {
+        outline: 3px solid var(--light);
+        outline-offset: 2px;
+      }
+      .slot .t {
+        font-weight: 700;
+      }
+      .slot .s {
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .slot[data-state="taken"] {
+        background: var(--taken);
+        cursor: default;
+      }
+      .slot[data-state="taken"] .t {
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .slot[data-state="mine"] {
+        border: 1.5px solid var(--ok);
+        background: var(--ok-soft);
+        cursor: default;
+      }
+      .slot[data-state="mine"] .s {
+        color: var(--ok);
+        font-weight: 500;
+      }
+      .slot[disabled] {
+        opacity: 0.7;
+      }
+
+      .mine {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1.5px solid var(--ok);
+        background: var(--ok-soft);
+      }
+      .btn {
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 8px 14px;
+        border: 1px solid var(--brand);
+        background: var(--brand);
+        color: #fff;
+      }
+      .btn:hover {
+        filter: brightness(1.05);
+      }
+      .btn:focus-visible {
+        outline: 3px solid var(--light);
+        outline-offset: 2px;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--brand-ink);
+      }
+      .btn.danger {
+        background: transparent;
+        border-color: var(--red);
+        color: var(--red);
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: end;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+      .confirm {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .slot,
+        .choice {
+          transition:
+            border-color 0.12s,
+            background-color 0.12s;
+        }
+      }
+    </style>
+
+    <div class="wrap">
+      <header>
+        <p class="eyebrow">LEVEL 1 CAPSTONE · WEEK 8</p>
+        <h1>Share your capstone page</h1>
+        <p class="lede">
+          Pick how you want to show your work: present with your group on
+          Friday, or talk it through one-on-one with Jennifer or a TA during
+          class. Either way you'll show your page, run your feature, and explain
+          one part of your code. Both count the same.
+        </p>
+      </header>
+
+      <div id="status" class="banner" hidden></div>
+
+      <section id="student" style="display: grid; gap: 22px">
+        <div id="mineBox"></div>
+
+        <div class="field">
+          <label for="studentName"
+            >Your full name (group presentation: your group number and
+            names)</label
+          >
+          <input
+            id="studentName"
+            autocomplete="name"
+            placeholder="First and last name"
+          />
+        </div>
+
+        <div style="display: grid; gap: 10px">
+          <h2>1. Choose one</h2>
+          <div
+            class="choices"
+            role="group"
+            aria-label="Choose how you'll share"
+          >
+            <button
+              class="choice"
+              type="button"
+              data-kind="class"
+              aria-pressed="false"
+            >
+              <strong>Group presentation</strong>
+              <span
+                >Your group presents together on Fri Oct 9, about 5 minutes.
+                Each of you shows your own page. ONE person signs up for the
+                whole group: type your group number and everyone's names in the
+                name box (like "Group 3: Ana, Ben, Cy").</span
+              >
+              <span class="meta" data-count="class"></span>
+            </button>
+            <button
+              class="choice"
+              type="button"
+              data-kind="chat"
+              aria-pressed="false"
+            >
+              <strong>One-on-one chat</strong>
+              <span
+                >About 10 minutes in a private breakout room during class, Mon
+                Oct 5 to Thu Oct 8. Each time says who it's with: pick a "with
+                Jennifer" or a "with TA" time. Same things to show, just no
+                audience.</span
+              >
+              <span class="meta" data-count="chat"></span>
+            </button>
+          </div>
+        </div>
+
+        <div id="slotArea" style="display: grid; gap: 14px" hidden>
+          <h2>
+            2. Pick a time
+            <span class="muted" style="font-weight: 400; font-size: 14px"
+              >(Central Time)</span
+            >
+          </h2>
+          <div id="slotList" style="display: grid; gap: 18px"></div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      (() => {
+        // ---------- settings ----------
+        // Paste your Apps Script web app URL here (see README.md).
+        const SCRIPT_URL =
+          "https://script.google.com/macros/s/AKfycbxjGqDfHwiBKjN_zmrgvJRtmD1u9YFZUVoCZ3kYENkyHduFc39veSDmNVkPPtWsTWmU/exec";
+
+        const KIND = {
+          class: { label: "Group presentation", minutes: 6 },
+          chat: { label: "One-on-one chat", minutes: 10 },
+        };
+
+        // Time slots (Central Time). Each line: type, who it's with, date,
+        // first start time, how many back-to-back slots.
+        const SLOTS = [
+          ...block("class", "", "2026-10-09", "19:00", 6),
+          ...block("chat", "Jennifer", "2026-10-08", "19:00", 4),
+          ...block("chat", "Jennifer", "2026-10-08", "19:55", 6),
+          ...block("chat", "Jennifer", "2026-10-09", "19:45", 6),
+          ...block("chat", "TA", "2026-10-08", "19:00", 4),
+          ...block("chat", "TA", "2026-10-08", "19:55", 6),
+          ...block("chat", "TA", "2026-10-09", "19:45", 6),
+        ].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+        const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const MONTHS = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        const $ = (s) => document.querySelector(s);
+
+        let taken = new Set(),
+          mine = null,
+          loaded = false,
+          chosenKind = null,
+          busy = false,
+          pendingSwitch = null;
+
+        // ---------- helpers ----------
+        const store = {
+          get(k) {
+            try {
+              return localStorage.getItem(k);
+            } catch {
+              return null;
+            }
+          },
+          set(k, v) {
+            try {
+              localStorage.setItem(k, v);
+            } catch {}
+          },
+        };
+        function block(kind, host, date, start, count) {
+          const out = [];
+          const minutes = KIND[kind].minutes;
+          const hostKey =
+            host.toLowerCase().replace(/[^a-z0-9]/g, "") || "class";
+          let t = start;
+          for (let i = 0; i < count; i++) {
+            out.push({
+              id: `${kind}-${hostKey}-${date}-${t.replace(":", "")}`,
+              kind,
+              host,
+              date,
+              time: t,
+              minutes,
+            });
+            t = addMin(t, minutes);
+          }
+          return out;
+        }
+        function fmtDay(date) {
+          const [y, m, d] = date.split("-").map(Number);
+          const dt = new Date(Date.UTC(y, m - 1, d));
+          return `${DAYS[dt.getUTCDay()]} ${MONTHS[m - 1]} ${d}`;
+        }
+        function fmtTime(t) {
+          let [h, mi] = t.split(":").map(Number);
+          const ap = h >= 12 ? "PM" : "AM";
+          h = h % 12 || 12;
+          return `${h}:${String(mi).padStart(2, "0")} ${ap}`;
+        }
+        function addMin(t, n) {
+          let [h, mi] = t.split(":").map(Number);
+          const tot = h * 60 + mi + n;
+          return `${String(Math.floor(tot / 60)).padStart(2, "0")}:${String(tot % 60).padStart(2, "0")}`;
+        }
+        const when = (s) => `${fmtDay(s.date)} · ${fmtTime(s.time)}`;
+        const slotById = (id) => SLOTS.find((s) => s.id === id);
+        function status(msg, tone) {
+          const el = $("#status");
+          if (!msg) {
+            el.hidden = true;
+            return;
+          }
+          el.textContent = msg;
+          el.dataset.tone = tone || "";
+          el.hidden = false;
+        }
+
+        // A random id saved in this browser, so the sheet knows which
+        // sign-up is "yours" for switching and cancelling.
+        let token = store.get("shareout-token");
+        if (!token) {
+          token =
+            (crypto.randomUUID && crypto.randomUUID()) ||
+            Math.random().toString(36).slice(2) + Date.now().toString(36);
+          store.set("shareout-token", token);
+        }
+
+        // ---------- talking to the Google Sheet ----------
+        async function refresh() {
+          if (!SCRIPT_URL) return;
+          try {
+            const r = await fetch(
+              `${SCRIPT_URL}?token=${encodeURIComponent(token)}`,
+            );
+            const d = await r.json();
+            taken = new Set(d.taken || []);
+            mine = d.mine || null;
+            if (!loaded) status("");
+            loaded = true;
+          } catch {
+            status(
+              "Couldn't load the sign-up list. Check your connection and reload.",
+              "warn",
+            );
+          }
+          renderAll();
+        }
+        async function post(body) {
+          // Sent as plain text so the browser doesn't need a CORS preflight.
+          const r = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({ ...body, token }),
+          });
+          return r.json();
+        }
+
+        // ---------- student view ----------
+        function renderChoices() {
+          document.querySelectorAll(".choice").forEach((b) => {
+            b.setAttribute(
+              "aria-pressed",
+              String(b.dataset.kind === chosenKind),
+            );
+          });
+          for (const k of Object.keys(KIND)) {
+            const all = SLOTS.filter((s) => s.kind === k);
+            const open = all.filter((s) => !taken.has(s.id)).length;
+            const el = document.querySelector(`[data-count="${k}"]`);
+            el.textContent = !all.length
+              ? "No times posted yet"
+              : loaded
+                ? `${open} of ${all.length} spots open`
+                : `${all.length} spots`;
+          }
+        }
+
+        function renderMine() {
+          const box = $("#mineBox");
+          box.replaceChildren();
+          if (!mine) return;
+          const slot = slotById(mine);
+          const div = document.createElement("div");
+          div.className = "mine";
+          const txt = document.createElement("div");
+          const a = document.createElement("strong");
+          a.textContent = slot
+            ? `You're signed up: ${KIND[slot.kind].label}`
+            : "You're signed up";
+          const b = document.createElement("div");
+          b.textContent = slot
+            ? `${when(slot)} to ${fmtTime(addMin(slot.time, slot.minutes))} CT` +
+              (slot.kind === "chat" && slot.host ? ` · with ${slot.host}` : "")
+            : "";
+          txt.append(a, b);
+          const cancel = document.createElement("button");
+          cancel.className = "btn danger";
+          cancel.type = "button";
+          cancel.textContent = "Cancel my spot";
+          cancel.onclick = () => {
+            div.replaceChildren();
+            const c = document.createElement("div");
+            c.className = "confirm";
+            const q = document.createElement("span");
+            q.textContent = "Give up this spot?";
+            const yes = document.createElement("button");
+            yes.className = "btn danger";
+            yes.textContent = "Yes, cancel it";
+            const no = document.createElement("button");
+            no.className = "btn ghost";
+            no.textContent = "Keep it";
+            yes.onclick = cancelSpot;
+            no.onclick = renderAll;
+            c.append(q, yes, no);
+            div.append(c);
+          };
+          div.append(txt, cancel);
+          box.append(div);
+        }
+
+        function renderSlots() {
+          const area = $("#slotArea"),
+            list = $("#slotList");
+          if (!chosenKind) {
+            area.hidden = true;
+            return;
+          }
+          area.hidden = false;
+          list.replaceChildren();
+          const kindList = SLOTS.filter((s) => s.kind === chosenKind);
+          if (!kindList.length) {
+            const p = document.createElement("p");
+            p.className = "muted";
+            p.textContent =
+              "No times are posted for this option yet. Check back soon.";
+            list.append(p);
+            return;
+          }
+          const byDay = {};
+          for (const s of kindList) (byDay[s.date] ||= []).push(s);
+          for (const date of Object.keys(byDay).sort()) {
+            const day = document.createElement("div");
+            day.className = "day";
+            const h = document.createElement("h3");
+            h.textContent = fmtDay(date);
+            const grid = document.createElement("div");
+            grid.className = "slots";
+            for (const s of byDay[date]) {
+              const isMine = mine === s.id;
+              const isTaken = taken.has(s.id) && !isMine;
+              const b = document.createElement("button");
+              b.type = "button";
+              b.className = "slot";
+              const t = document.createElement("span");
+              t.className = "t";
+              t.textContent = fmtTime(s.time);
+              const sub = document.createElement("span");
+              sub.className = "s";
+              if (isMine) {
+                b.dataset.state = "mine";
+                sub.textContent = "Your spot";
+                b.disabled = true;
+              } else if (isTaken) {
+                b.dataset.state = "taken";
+                sub.textContent = "Taken";
+                b.disabled = true;
+              } else if (pendingSwitch === s.id) {
+                sub.textContent = "Click again to switch";
+                b.style.borderColor = "var(--brand)";
+              } else {
+                sub.textContent = mine
+                  ? "Switch here"
+                  : `${s.minutes} min · open`;
+              }
+              if (s.kind === "chat" && s.host && !isTaken)
+                sub.textContent += ` · with ${s.host}`;
+              b.setAttribute(
+                "aria-label",
+                `${fmtDay(s.date)} ${fmtTime(s.time)}, ${sub.textContent}`,
+              );
+              if (!isTaken && !isMine) b.onclick = () => onPick(s.id);
+              if (busy || !loaded) b.disabled = true;
+              b.append(t, sub);
+              grid.append(b);
+            }
+            day.append(h, grid);
+            list.append(day);
+          }
+        }
+
+        async function onPick(slotId) {
+          const name = $("#studentName").value.trim();
+          if (!name) {
+            status(
+              "Type your full name first, so Jennifer knows who signed up.",
+              "warn",
+            );
+            $("#studentName").focus();
+            return;
+          }
+          if (mine && pendingSwitch !== slotId) {
+            pendingSwitch = slotId;
+            renderSlots();
+            return;
+          }
+          pendingSwitch = null;
+          await claim(slotId, name);
+        }
+
+        async function claim(slotId, name) {
+          const s = slotById(slotId);
+          busy = true;
+          renderSlots();
+          status("Saving…");
+          try {
+            const res = await post({
+              action: "claim",
+              slotId,
+              name,
+              when: `${when(s)} CT`,
+              type: KIND[s.kind].label,
+              host: s.kind === "chat" ? s.host : "Class",
+            });
+            if (res.ok) {
+              store.set("shareout-name", name);
+              status(
+                `Saved. You're down for ${KIND[s.kind].label.toLowerCase()} on ${when(s)} CT.`,
+                "ok",
+              );
+            } else if (res.error === "taken") {
+              status("That spot was just taken. Pick another time.", "warn");
+            } else {
+              status("Your sign-up didn't save. Try again in a moment.", "warn");
+            }
+          } catch {
+            status("Your sign-up didn't save. Try again in a moment.", "warn");
+          } finally {
+            busy = false;
+            await refresh();
+          }
+        }
+
+        async function cancelSpot() {
+          busy = true;
+          renderAll();
+          try {
+            const res = await post({ action: "cancel" });
+            if (!res.ok) throw new Error();
+            status(
+              "Your spot was cancelled. Pick a new time whenever you're ready.",
+              "ok",
+            );
+          } catch {
+            status("Couldn't cancel. Try again in a moment.", "warn");
+          } finally {
+            busy = false;
+            await refresh();
+          }
+        }
+
+        // ---------- wiring ----------
+        function renderAll() {
+          renderChoices();
+          renderMine();
+          renderSlots();
+        }
+
+        document.querySelectorAll(".choice").forEach((b) =>
+          b.addEventListener("click", () => {
+            chosenKind = b.dataset.kind;
+            pendingSwitch = null;
+            store.set("shareout-kind", chosenKind);
+            renderAll();
+          }),
+        );
+        $("#studentName").value = store.get("shareout-name") || "";
+        chosenKind = store.get("shareout-kind");
+
+        if (!SCRIPT_URL) {
+          status(
+            "Sign-ups aren't connected yet: paste the Apps Script web app URL into SCRIPT_URL in index.html.",
+            "warn",
+          );
+        } else {
+          status("Loading open times…");
+          refresh();
+          // Keep "Taken" up to date while the page is open.
+          setInterval(() => {
+            if (!busy && !document.hidden) refresh();
+          }, 30000);
+        }
+        renderAll();
+      })();
+    </script>
+  </body>
+</html>
